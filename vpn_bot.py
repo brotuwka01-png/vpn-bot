@@ -10,7 +10,8 @@ from telegram.ext import (
 # ==============================
 # НАСТРОЙКИ
 # ==============================
-BOT_TOKEN = "ВАШ_ТОКЕН_СЮДА"          # вставь свой токен от @BotFather
+import os
+BOT_TOKEN = os.environ.get("7914467697:AAFkkbxqE1LHI4GirRMTuy3QfzcSzqCgTzk", "")         # вставь свой токен от @BotFather
 ADMIN_ID = 8706308967
 CARD_NUMBER = "2202 2083 1522 4080"
 PRICE = 200
