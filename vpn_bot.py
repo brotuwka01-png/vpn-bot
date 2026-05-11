@@ -1,5 +1,6 @@
 import logging
 import sqlite3
+import os
 from datetime import datetime
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (
@@ -10,8 +11,7 @@ from telegram.ext import (
 # ==============================
 # НАСТРОЙКИ
 # ==============================
-import os
-BOT_TOKEN = os.environ.get("BOT_TOKEN", "")        # вставь свой токен от @BotFather
+BOT_TOKEN = os.environ.get("BOT_TOKEN", "")
 ADMIN_ID = 8706308967
 CARD_NUMBER = "2202 2083 1522 4080"
 PRICE = 200
@@ -80,6 +80,27 @@ async def start(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         "📅 1 месяц — *200 рублей*\n"
         "⚡ Выдача ключа в течение нескольких минут после оплаты.\n\n"
         "Нажми кнопку ниже чтобы купить:",
+        parse_mode="Markdown",
+        reply_markup=InlineKeyboardMarkup(kb)
+    )
+
+async def buy_command(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
+    kb = [[InlineKeyboardButton("🛒 Купить VPN на 1 месяц — 200 руб", callback_data="buy")]]
+    await update.message.reply_text(
+        "🛒 *Купить VPN*\n\n"
+        "📅 1 месяц — *200 рублей*\n"
+        "⚡ Выдача ключа в течение нескольких минут.\n\n"
+        "Нажми кнопку ниже:",
+        parse_mode="Markdown",
+        reply_markup=InlineKeyboardMarkup(kb)
+    )
+
+async def support(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
+    kb = [[InlineKeyboardButton("💬 Написать менеджеру", url="https://t.me/SIKI_OFFICIAL")]]
+    await update.message.reply_text(
+        "🆘 *Поддержка*\n\n"
+        "Есть вопросы? Наш менеджер поможет!\n"
+        "Нажми кнопку ниже:",
         parse_mode="Markdown",
         reply_markup=InlineKeyboardMarkup(kb)
     )
@@ -199,6 +220,8 @@ def main():
         per_message=False
     )
     app.add_handler(CommandHandler("start", start))
+    app.add_handler(CommandHandler("buy", buy_command))
+    app.add_handler(CommandHandler("support", support))
     app.add_handler(CommandHandler("orders", orders))
     app.add_handler(buy_conv)
     app.add_handler(give_conv)
